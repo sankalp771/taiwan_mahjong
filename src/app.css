@@ -1,0 +1,47 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+  --color-table:      #1a4a2e;   /* dark green felt */
+  --color-gold:       #c9a84c;   /* warm gold accent */
+  --color-tile-bg:    #f5f0e0;   /* warm ivory tile face */
+  --color-tile-border:#8b6914;   /* gold-brown tile edge */
+  --color-glow:       #ffe066;   /* highlight / selected tile */
+  --color-text:       #f5f0e0;   /* on dark backgrounds */
+  --color-btn-primary:#c9a84c;   
+  --color-btn-hover:  #e0b94f;
+
+  --anim-slow: 800ms ease;    /* tile draws, melds */
+  --anim-med:  500ms ease;    /* glow pulse, highlights */
+  --anim-fast: 250ms ease;    /* button hover only */
+}
+
+body { 
+  font-size: 20px; 
+  font-family: 'Nunito', 'Poppins', sans-serif;
+  background-color: var(--color-table);
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+h1 { font-size: 2rem; }
+.narration { font-size: 1.25rem; line-height: 1.7; }
+.tile-label { font-size: 1rem; }
+button { font-size: 1.1rem; padding: 14px 32px; border-radius: 12px; }
+
+/* Custom button overrides for bootstrap */
+.btn-primary {
+  background-color: var(--color-btn-primary) !important;
+  border-color: var(--color-btn-primary) !important;
+  color: #000 !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-btn-hover) !important;
+  border-color: var(--color-btn-hover) !important;
+}
+
+.btn-outline-light:hover {
+  color: #000 !important;
+}
