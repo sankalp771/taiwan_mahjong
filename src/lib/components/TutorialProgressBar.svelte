@@ -6,8 +6,8 @@
 </script>
 
 <div class="progress-container">
-  <div class="progress" style="height: 6px; background-color: rgba(255,255,255,0.2);">
-    <div class="progress-bar" role="progressbar" style="width: {progress}%; background-color: var(--color-gold);" aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100"></div>
+  <div class="progress" style="height: 8px; background-color: rgba(0,0,0,0.5); border-radius: 0; box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);">
+    <div class="progress-bar" role="progressbar" style="width: {progress}%; background: linear-gradient(90deg, var(--color-gold-dark), var(--color-gold)); box-shadow: 0 0 15px var(--color-gold);" aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100"></div>
   </div>
 </div>
 

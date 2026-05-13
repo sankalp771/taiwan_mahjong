@@ -4,7 +4,7 @@
 </script>
 
 <div class="video-container" on:click={() => videoElement && videoElement.play()}>
-  <video bind:this={videoElement} autoplay playsinline class="main-video" on:ended={nextStep}>
+  <video bind:this={videoElement} autoplay muted playsinline class="main-video" on:ended={nextStep}>
     <source src="/intro.mp4" type="video/mp4" />
   </video>
   <button class="skip-btn btn btn-outline-light" on:click|stopPropagation={nextStep}>Skip Intro →</button>

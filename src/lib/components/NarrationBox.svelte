@@ -20,15 +20,15 @@
 
 <style>
   .narration-box {
-    background: rgba(0, 0, 0, 0.85);
-    border-top: 4px solid var(--color-gold);
+    background: rgba(10, 30, 18, 0.85);
+    border-top: 1px solid rgba(223, 182, 82, 0.5);
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 100;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.7);
   }
   
   .narration {

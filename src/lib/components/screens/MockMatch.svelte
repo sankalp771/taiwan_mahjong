@@ -91,30 +91,55 @@
     runStep1();
   });
 </script>
+<div class="match-screen h-100 d-flex flex-column position-relative">
+  
+  <div class="board flex-grow-1 position-relative d-flex align-items-center justify-content-center">
+    <!-- Opponent Walls -->
+    <div class="wall wall-top">
+       {#each Array(10) as _} <div class="wall-tile-top"><TileCard faceDown={true} /></div> {/each}
+    </div>
+    
+    <div class="wall wall-left">
+       {#each Array(8) as _} <div class="wall-tile-side"><TileCard faceDown={true} /></div> {/each}
+    </div>
+    
+    <div class="wall wall-right">
+       {#each Array(8) as _} <div class="wall-tile-side"><TileCard faceDown={true} /></div> {/each}
+    </div>
 
-<div class="match-screen h-100 d-flex flex-column justify-content-between p-4">
-  <div class="top-area d-flex justify-content-center pt-4" style="min-height: 120px;">
-    {#if discard}
-      <div class="discard-area text-center">
-        <p class="mb-1 text-muted">Discarded</p>
-        <TileCard suit={discard.suit} value={discard.value} />
+    <!-- Center Pond / Discards -->
+    <div class="pond">
+      <div class="pond-inner d-flex flex-wrap justify-content-center align-content-center gap-2">
+        <div class="dummy-discard"><TileCard suit="dots" value={3} /></div>
+        <div class="dummy-discard"><TileCard suit="characters" value={8} /></div>
+        <div class="dummy-discard"><TileCard suit="bamboo" value={1} /></div>
+        
+        {#if discard}
+          <div class="discard-active">
+            <TileCard suit={discard.suit} value={discard.value} highlighted={true} />
+            <div class="discard-ping"></div>
+          </div>
+        {/if}
       </div>
-    {/if}
+    </div>
   </div>
   
-  <div class="melds-area d-flex gap-3 justify-content-center mt-4">
-    {#each melds as meld}
-      <MeldGroup {meld} />
-    {/each}
-  </div>
-  
-  <div class="hand-area d-flex justify-content-center align-items-end mt-auto mb-5 pb-5 gap-4">
-    <TileHand tiles={hand} />
-    {#if drawnTile}
-      <div class="drawn-tile">
-        <TileCard suit={drawnTile.suit} value={drawnTile.value} highlighted={drawnTile.highlighted} />
-      </div>
-    {/if}
+  <!-- Player Area -->
+  <div class="player-area mt-auto pb-5">
+    <div class="melds-area d-flex gap-3 justify-content-center mb-3">
+      {#each melds as meld}
+        <MeldGroup {meld} />
+      {/each}
+    </div>
+    
+    <div class="hand-area d-flex justify-content-center align-items-end gap-2">
+      <TileHand tiles={hand} />
+      {#if drawnTile}
+        <div class="drawn-tile ms-4">
+          <TileCard suit={drawnTile.suit} value={drawnTile.value} highlighted={drawnTile.highlighted} />
+        </div>
+      {/if}
+    </div>
   </div>
   
   {#if matchStep === 5}
@@ -126,20 +151,99 @@
 
 <style>
   .match-screen {
+    min-height: calc(100vh - 120px);
+    overflow: hidden;
+  }
+  
+  .board {
+    perspective: 1000px;
+  }
+
+  .wall {
+    position: absolute;
+    display: flex;
+    gap: 2px;
+  }
+
+  .wall-top {
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.6);
+  }
+
+  .wall-left {
+    left: 5%;
+    top: 40%;
+    transform: translateY(-50%) scale(0.6) rotate(90deg);
+  }
+
+  .wall-right {
+    right: 5%;
+    top: 40%;
+    transform: translateY(-50%) scale(0.6) rotate(-90deg);
+  }
+
+  .pond {
+    width: 300px;
+    height: 250px;
+    background: rgba(0,0,0,0.2);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    box-shadow: inset 0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pond-inner {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+  }
+
+  .dummy-discard {
+    transform: scale(0.6);
+    opacity: 0.6;
+    margin: -15px;
+  }
+
+  .discard-active {
     position: relative;
-    min-height: calc(100vh - 140px);
+    transform: scale(0.8);
+    margin: -10px;
+    z-index: 5;
+    animation: dropIn var(--anim-med);
   }
-  .discard-area {
-    animation: fadeIn 0.3s;
+  
+  @keyframes dropIn {
+    from { transform: scale(1.5) translateY(-50px); opacity: 0; }
+    to { transform: scale(0.8) translateY(0); opacity: 1; }
   }
+
+  .discard-ping {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 100px; height: 100px;
+    background: var(--color-glow);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    animation: ping 1.5s infinite;
+  }
+  
+  @keyframes ping {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+  }
+
   .drawn-tile {
-    margin-left: 20px;
     animation: slideIn var(--anim-slow);
   }
   @keyframes slideIn {
-    from { opacity: 0; transform: translateX(20px); }
+    from { opacity: 0; transform: translateX(30px); }
     to { opacity: 1; transform: translateX(0); }
   }
+  
   .win-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -148,14 +252,21 @@
     justify-content: center;
     pointer-events: none;
     z-index: 50;
-    background: radial-gradient(circle, rgba(201, 168, 76, 0.4) 0%, transparent 70%);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
   }
+  
   .win-text {
-    font-size: 3rem;
-    color: var(--color-gold);
-    text-shadow: 0 0 20px rgba(0,0,0,0.8);
+    font-size: 5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(to bottom, #ffffff, var(--color-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 40px rgba(223, 182, 82, 0.6), 0 5px 10px rgba(0,0,0,0.8);
     animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
+  
   @keyframes popIn {
     0% { transform: scale(0.5); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }

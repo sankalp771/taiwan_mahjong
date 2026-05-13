@@ -18,11 +18,10 @@ export const tutorialSteps = [
   {
     id: 'tiles-intro',
     screen: 'TileExplorer',
-    title: 'What Are Tiles?',
-    narration: 'There are three main tile types. Tap each to learn more.',
-    highlightTiles: ['bamboo', 'dots', 'characters'],
-    allowedAction: 'tap-tile',
-    animation: 'fade-in',
+    title: 'How to Play Taiwan Mahjong',
+    narration: 'Explore the tabs above to learn about the tiles, game setup, and basic rules. Press Next when ready.',
+    highlightTiles: [],
+    allowedAction: 'next',
   },
   {
     id: 'pong-demo',

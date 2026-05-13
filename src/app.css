@@ -1,47 +1,73 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
-:root {
-  --color-table:      #1a4a2e;   /* dark green felt */
-  --color-gold:       #c9a84c;   /* warm gold accent */
-  --color-tile-bg:    #f5f0e0;   /* warm ivory tile face */
-  --color-tile-border:#8b6914;   /* gold-brown tile edge */
-  --color-glow:       #ffe066;   /* highlight / selected tile */
-  --color-text:       #f5f0e0;   /* on dark backgrounds */
-  --color-btn-primary:#c9a84c;   
-  --color-btn-hover:  #e0b94f;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-  --anim-slow: 800ms ease;    /* tile draws, melds */
-  --anim-med:  500ms ease;    /* glow pulse, highlights */
-  --anim-fast: 250ms ease;    /* button hover only */
+:root {
+  --color-table:      #0e3822;   /* Deeper premium green */
+  --color-table-light:#185a36;
+  --color-gold:       #dfb652;   /* Brighter, luxurious gold */
+  --color-gold-dark:  #b59135;
+  --color-tile-face:  #fcfaf5;   /* Ivory white */
+  --color-tile-side:  #3ab366;   /* Emerald green sides */
+  --color-tile-shadow:#06170d;   
+  --color-glow:       #ffe98a;   
+  --color-text:       #f0f0f0;   
+  --color-btn-primary:#dfb652;   
+  --color-btn-hover:  #eed17f;
+
+  --anim-slow: 800ms cubic-bezier(0.25, 1, 0.5, 1);
+  --anim-med:  400ms cubic-bezier(0.25, 1, 0.5, 1);
+  --anim-fast: 200ms ease;
 }
 
 body { 
   font-size: 20px; 
-  font-family: 'Nunito', 'Poppins', sans-serif;
-  background-color: var(--color-table);
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at 50% 40%, var(--color-table-light) 0%, var(--color-table) 100%);
   color: var(--color-text);
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
-h1 { font-size: 2rem; }
-.narration { font-size: 1.25rem; line-height: 1.7; }
-.tile-label { font-size: 1rem; }
-button { font-size: 1.1rem; padding: 14px 32px; border-radius: 12px; }
+h1, h2, h3 { 
+  font-weight: 700; 
+  letter-spacing: -0.5px;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
 
-/* Custom button overrides for bootstrap */
+.narration { font-size: 1.3rem; line-height: 1.6; }
+
+button { 
+  font-size: 1.15rem; 
+  padding: 14px 32px; 
+  border-radius: 50px; 
+  font-weight: 600;
+  transition: all var(--anim-fast);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
 .btn-primary {
-  background-color: var(--color-btn-primary) !important;
-  border-color: var(--color-btn-primary) !important;
-  color: #000 !important;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark)) !important;
+  border: none !important;
+  color: #1a1a1a !important;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.4);
 }
 
 .btn-primary:hover {
-  background-color: var(--color-btn-hover) !important;
-  border-color: var(--color-btn-hover) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(223, 182, 82, 0.4);
+}
+
+.btn-outline-light {
+  backdrop-filter: blur(4px);
+  background: rgba(255,255,255,0.1) !important;
+  border-color: rgba(255,255,255,0.3) !important;
 }
 
 .btn-outline-light:hover {
-  color: #000 !important;
+  background: rgba(255,255,255,0.2) !important;
+  color: white !important;
+  transform: translateY(-2px);
 }
