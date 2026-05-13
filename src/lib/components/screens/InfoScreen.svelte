@@ -1,7 +1,21 @@
 <script>
   import TileCard from '../TileCard.svelte';
   import { currentStep } from '$lib/stores/tutorialStore.js';
+  import { onMount, onDestroy } from 'svelte';
   export let step;
+  
+  let animState = 0;
+  let interval;
+  
+  onMount(() => {
+    interval = setInterval(() => {
+      animState = (animState + 1) % 4; // 0, 1, 2, 3
+    }, 1200);
+  });
+  
+  onDestroy(() => {
+    if (interval) clearInterval(interval);
+  });
 </script>
 
 <div class="info-screen">
@@ -32,16 +46,65 @@
     
     {#if step.isSplitScreen}
       <div class="row text-center mt-4 g-4">
+        <!-- OPEN HAND -->
         <div class="col-md-6">
-          <div class="p-4 border rounded" style="border-color: var(--color-gold) !important; background: rgba(0,0,0,0.5);">
-            <h3>Open Hand</h3>
-            <p>You can use tiles others discard.</p>
+          <div class="split-card p-4 h-100">
+            <h3 class="text-gold mb-2">Open Hand</h3>
+            <p class="mb-4 small" style="color: #d0d0d0;">You can take tiles others discard.</p>
+            
+            <div class="anim-box">
+               <div class="opponent-discard" class:visible={animState >= 1}>
+                 <div class="tile-mini"><TileCard suit="dots" value={5} /></div>
+                 <div class="label-mini mt-1" style="color: #b0b0b0;">Opponent Discards</div>
+               </div>
+               
+               <div class="player-meld mt-4 d-flex justify-content-center">
+                 <div class="tile-mini"><TileCard suit="dots" value={5} /></div>
+                 <div class="tile-mini"><TileCard suit="dots" value={5} /></div>
+                 <div class="tile-mini claim-tile" class:claimed={animState >= 2}>
+                   {#if animState >= 2}
+                     <TileCard suit="dots" value={5} highlighted={true}/>
+                   {/if}
+                 </div>
+               </div>
+               {#if animState >= 2}
+                 <div class="action-label text-success mt-2">PONG!</div>
+               {:else}
+                 <div class="action-label mt-2">&nbsp;</div>
+               {/if}
+            </div>
           </div>
         </div>
+        
+        <!-- HIDDEN HAND -->
         <div class="col-md-6">
-          <div class="p-4 border rounded" style="border-color: var(--color-gold) !important; background: rgba(0,0,0,0.5);">
-            <h3>Hidden Hand</h3>
-            <p>Using only your own tiles may score more.</p>
+          <div class="split-card p-4 h-100">
+            <h3 class="text-gold mb-2">Hidden Hand</h3>
+            <p class="mb-4 small" style="color: #d0d0d0;">Using only your own drawn tiles.</p>
+            
+            <div class="anim-box">
+               <div class="wall-draw d-flex justify-content-center">
+                 <div class="tile-mini"><TileCard faceDown={true} /></div>
+                 <div class="tile-mini"><TileCard faceDown={true} /></div>
+                 <div class="tile-mini wall-tile" class:taken={animState >= 1}><TileCard faceDown={true} /></div>
+               </div>
+               <div class="label-mini mt-1" style="color: #b0b0b0;">Draw from Wall</div>
+               
+               <div class="player-hidden-hand mt-4 d-flex justify-content-center">
+                 <div class="tile-mini"><TileCard suit="characters" value={2} /></div>
+                 <div class="tile-mini"><TileCard suit="characters" value={3} /></div>
+                 <div class="tile-mini player-draw" class:drawn={animState >= 2}>
+                   {#if animState >= 2}
+                     <TileCard suit="characters" value={4} highlighted={true}/>
+                   {/if}
+                 </div>
+               </div>
+               {#if animState >= 2}
+                 <div class="action-label text-info mt-2">Secretly added to hand</div>
+               {:else}
+                 <div class="action-label mt-2">&nbsp;</div>
+               {/if}
+            </div>
           </div>
         </div>
       </div>
@@ -107,4 +170,48 @@
       margin: -25px -15px;
     }
   }
+
+  /* Split Screen Animations */
+  .split-card {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(223, 182, 82, 0.4);
+    border-radius: 16px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+  }
+  
+  .anim-box {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(14, 56, 34, 0.5);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  
+  .tile-mini {
+    transform: scale(0.6);
+    margin: -10px -15px;
+    height: 90px;
+    width: 66px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .label-mini { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+  .action-label { font-size: 0.9rem; font-weight: bold; }
+  
+  /* Open Hand Anim */
+  .opponent-discard { opacity: 0; transform: translateY(-20px); transition: all 0.4s ease; display: flex; flex-direction: column; align-items: center; }
+  .opponent-discard.visible { opacity: 1; transform: translateY(0); }
+  
+  .claim-tile { opacity: 0; transform: scale(1.5) translate(-30px, -40px); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+  .claim-tile.claimed { opacity: 1; transform: scale(1) translate(0, 0); }
+  
+  /* Hidden Hand Anim */
+  .wall-tile { transition: all 0.4s ease; }
+  .wall-tile.taken { opacity: 0; transform: translateY(-30px); }
+  
+  .player-draw { opacity: 0; transform: translateY(30px); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+  .player-draw.drawn { opacity: 1; transform: translateY(0); }
 </style>
