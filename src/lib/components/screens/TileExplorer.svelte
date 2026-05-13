@@ -161,4 +161,12 @@
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .title-glow { font-size: 1.8rem; }
+    .nav-pills .nav-link { font-size: 0.85rem; padding: 8px 12px; }
+    .glass-card { padding: 15px !important; font-size: 1rem; }
+    .tile-sm { transform: scale(0.45); width: 34px; height: 42px; margin-right: 1px; }
+  }
 </style>

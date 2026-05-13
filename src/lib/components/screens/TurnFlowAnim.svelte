@@ -180,4 +180,18 @@
     color: var(--color-gold);
     opacity: 0.7;
   }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .luxury-title { font-size: 2rem; }
+    .animation-stage {
+      flex-direction: column;
+      gap: 15px;
+      padding: 20px;
+    }
+    .arrow { transform: rotate(90deg); margin: 5px 0; }
+    .tile-display { height: 100px; }
+    .tile-scale { transform: scale(0.6); }
+    .draw-tile.drawing { transform: scale(0.6) translateY(30px) translateX(10px); }
+  }
 </style>

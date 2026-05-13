@@ -35,4 +35,11 @@
     color: var(--color-text);
     font-weight: 500;
   }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .narration-box { padding: 15px 10px !important; }
+    .narration { font-size: 1.1rem; }
+    .btn { padding: 8px 16px; font-size: 1rem; }
+  }
 </style>

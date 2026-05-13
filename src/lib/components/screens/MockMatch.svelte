@@ -271,4 +271,15 @@
     0% { transform: scale(0.5); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
   }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .pond { width: 220px; height: 180px; }
+    .wall-top { transform: translateX(-50%) scale(0.4); top: 2%; }
+    .wall-left { transform: translateY(-50%) scale(0.4) rotate(90deg); left: -10%; }
+    .wall-right { transform: translateY(-50%) scale(0.4) rotate(-90deg); right: -10%; }
+    .hand-area, .melds-area { transform: scale(0.7); transform-origin: bottom center; margin-bottom: 0 !important; }
+    .player-area { padding-bottom: 1rem !important; }
+    .win-text { font-size: 2.5rem; text-align: center; }
+  }
 </style>

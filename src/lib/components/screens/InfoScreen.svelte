@@ -165,10 +165,14 @@
   
   /* Mobile scaling for the tiles */
   @media (max-width: 768px) {
+    .luxury-title { font-size: 2.2rem; }
+    .split-card { padding: 15px !important; margin-bottom: 10px; }
     .tile-scale {
       transform: scale(0.45);
       margin: -25px -15px;
     }
+    .anim-box { height: 160px; padding: 10px; }
+    .tile-mini { transform: scale(0.45); margin: -10px -20px; }
   }
 
   /* Split Screen Animations */
